@@ -1,5 +1,4 @@
 # JavideuS <33333333 
-# Heyyy, I'm Javi😎
 
 ## I'm just a computer and robotics enthusiast who wants to do cool stuff
 
