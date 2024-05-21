@@ -1,6 +1,9 @@
 # JavideuS <33333333 
 # Heyyy, I'm Javi😎
 
+## I'm just a computer and robotics enthusiast who wants to do cool stuff
+
+<!--
 <table style="width:100%; border-collapse: collapse; border: none;">
   <tr>
     <td style="width:70%; padding: 10px; border: none;">
@@ -50,10 +53,6 @@
   </tr>
 </table>
 
-
-
-<!--
-
 ## Projects
 
 Here are some of the projects I've worked on:
@@ -64,9 +63,9 @@ A brief description of what this project does and why it's useful.
 ### [Project Name 2](https://github.com/your-username/project2)
 A brief description of what this project does and why it's useful.
 
--->
 ## Contact
 
 - [Instagram](https://www.instagram.com/javig1000/)
 - [LinkedIn](https://www.linkedin.com/in/javideus/)
+-->
 
