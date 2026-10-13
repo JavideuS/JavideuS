@@ -1,87 +1,80 @@
 # Javier Gonzalez Villasmil
 
-  Robotics Engineering student focused on **autonomous systems, optimization, and machine learning**.
-  Robotics freestyler building tech with real-world impact - "When you are going to change the world, don't ask for permission".
+Final-year Robotics Software Engineering student (URJC, Madrid) working on **multi-robot planning, quantum optimization and robot locomotion**.
+Robotics freestyler building tech with real-world impact - "When you are going to change the world, don't ask for permission".
 
-  ---
+- **Now:** bachelor's thesis on a multimodal ground–aerial robot with assisted wall climbing, and a research fellowship at CAR-CSIC (VR training simulator in Unity)
+- **Summer 2026:** research intern at Fraunhofer CML (Hamburg), quantum optimization and robotics
+- **Paper:** [Scalable Multi-Robot Path Planning via QUBO](https://arxiv.org/abs/2602.14799) (arXiv, 2026)
+- 🏆 **RoboHack 2026 at EPFL, 1st place** with [argOS](https://github.com/JavideuS/argOS)
 
-  ## 🏆 Awards
+---
 
-  **RoboHack 2026 — 1st Place**
-  Built [argOS](https://github.com/JavideuS/argOS): a cloud-native intelligence layer that lets you command a quadruped robot in plain English from any browser, anywhere.
+## Multi-robot stack
 
-  ---
+Three repos that work together: one plans, one executes, one is the interface. Tested in NVIDIA Isaac Sim and on a fleet of three real AgileX Ranger Mini robots.
 
-  ## Projects
+```
+Spooky (global planner)  ->  clew (fleet execution on Nav2)  ->  argOS (browser interface)
+```
 
-  ### [Spooky](https://github.com/JavideuS/Spooky)
-  Multi-robot path planning using **QUBO formulation**
-  - Models coordination as an optimization problem with adaptive penalty design
-  - >95% variable reduction through BFS-based preprocessing
-  - Benchmarks classical vs quantum-inspired solvers with reproducible results
-  - Published on arXiv: [2602.14799](https://arxiv.org/abs/2602.14799)
+### [Spooky](https://github.com/JavideuS/Spooky)
+Multi-robot path planning as a QUBO, with quantum and classical solvers behind one API
+- >95% variable reduction through BFS-based preprocessing; time-windowed solving for current hardware
+- Run on real quantum hardware (IBM Quantum Platform, IQM Resonance), plus PennyLane QAOA and D-Wave annealing
+- Classical ILP and CBS baselines, with a benchmark framework to compare them
+- Published on arXiv: [2602.14799](https://arxiv.org/abs/2602.14799)
 
-  **Tech:** Python, QUBO, Pennylane, D-Wave, NumPy
+**Tech:** Python, QUBO, Qiskit, PennyLane, D-Wave Ocean, FastAPI
 
-  ### [argOS](https://github.com/JavideuS/argOS)
-  Cloud-native intelligence and browser UI layer for quadruped robots
-  - Commands a robot dog in plain language from any browser, over the internet
-  - LLM agent (Claude) with MCP tool access to navigation and perception
-  - Real-time 3D lidar map streamed to your phone; YOLO11 object segmentation
-  - Semantic memory with confidence decay, persisted across sessions via S3
-  - Sits on top of DimOS — designed to support other navigation backends
+### [clew](https://github.com/JavideuS/clew)
+ROS2 fleet coordinator that takes Spooky's plan to real robots
+- Turns the global plan into per-robot release schedules around conflict zones
+- Executes through each robot's own Nav2 stack, with stall and deadlock recovery
 
-  **Tech:** Python, ROS2, AWS (Bedrock, Transcribe, S3), FastAPI, WebGL
+**Tech:** Python, ROS2, Nav2
 
-  ### [robotsito](https://github.com/JavideuS/robotsito)
-  Hexapod robot with adaptive gait control
-  - Inverse kinematics solver for 18-DOF leg configuration
-  - Tripod gait pattern with sensor-based obstacle avoidance
-  - Simulated in Gazebo and deployed on real hardware
+### [argOS](https://github.com/JavideuS/argOS)
+Browser interface to command robots in plain language (RoboHack 2026 winner)
+- LLM agent with MCP tool access to navigation and perception
+- Live 3D lidar map in the browser; semantic object memory from YOLO detections
+- Fleet interface for Spooky and clew: shared map, multi-robot view and control (on the [`work`](https://github.com/JavideuS/argOS/tree/work) branch)
 
-  **Tech:** ROS2, C++, Gazebo
+**Tech:** Python, FastAPI, MCP, AWS, WebGL, YOLO
 
-  ---
+---
 
-  ## Open Source Contributions
+## Hardware
 
-  ### [aries_ros](https://github.com/JavideuS/aries_ros)
-  ROS2 wrapper for the Aries automated planner (Rust-based, PDDL/HDDL)
-  - Compiles Aries via Cargo as part of the Colcon build with no separate install step
-  - Supports durative actions; includes a utility to sanitize non-ASCII PDDL files
+### [robotsito](https://github.com/JavideuS/robotsito)
+Quadruped robot of my own design, in development
+- Mechanics in FreeCAD; inverse kinematics and gait control in C++/ROS2
+- Gazebo simulation; first walking gait on the real robot (Oct 2026)
 
-  ### [plansys2_aries_plan_solver](https://github.com/JavideuS/plansys2_aries_plan_solver)
-  PlanSys2 plugin that swaps in Aries as the planning backend
-  - Drop-in replacement for POPF/TFD, configured via YAML, with no PlanSys2 source changes needed
-  - Includes worked PDDL examples and notes on durative action concurrency quirks
+---
 
-  **Tech:** C++, ROS2, PlanSys2, PDDL, Rust (Aries)
+## ROS2 packages
 
-  ---
+Packages meant to drop into any ROS2 stack.
 
-  ## ML
+### [transformers_bridge](https://github.com/JavideuS/transformers_bridge)
+ROS2 node for HuggingFace Transformers and Ultralytics YOLO detection models
+- Outputs standard `vision_msgs/Detection2DArray`; inference on a background thread
 
-  ### [transformers_bridge](https://github.com/JavideuS/transformers_bridge)
-  ROS2 ↔ HuggingFace transformers bridge for vision tasks
-  - Outputs standard `vision_msgs/Detection2DArray`; designed to be subclassed by downstream perception stacks
-  - Inference runs on a background thread so the ROS executor is never blocked
-  - Allows customization of the inference pipeline through a YAML configuration file and a simple class inheritance structure.
-  - Modify of draw class depending on the model used
-  
-  **Tech:** Python, ROS2, HuggingFace Transformers, Ultralytics YOLO, PyTorch
-  
-  ---
-  
-  ## Stack
-  **Languages:** Python, C++
-  **Robotics:** ROS2, Gazebo, PlanSys2, PDDL
-  **ML / Perception:** Vision, HuggingFace Transformers, Ultralytics YOLO, PyTorch
-  **Cloud:** AWS (Bedrock, Transcribe, S3), FastAPI
-  **Optimization:** QUBO, Pennylane, D-Wave 
-  **Tools:** Linux, Git, Docker
+### [aries_ros](https://github.com/JavideuS/aries_ros) and [plansys2_aries_plan_solver](https://github.com/JavideuS/plansys2_aries_plan_solver)
+The Aries PDDL/HDDL planner for ROS2, and a drop-in PlanSys2 plugin that uses it
 
-  ---
-  
-  ## Links
-  [Portfolio](https://javideus.github.io) · [LinkedIn](https://linkedin.com/in/javideus) ·
-  [arXiv](https://arxiv.org/abs/2602.14799)
+---
+
+## Stack
+- **Languages:** C++, Python, C
+- **Robotics:** ROS2, Nav2, NVIDIA Isaac Sim, Gazebo, FreeCAD, PlanSys2
+- **Planning & Optimization:** QUBO, ILP, CBS, QAOA, Qiskit, PennyLane, D-Wave Ocean
+- **ML / Perception:** PyTorch, HuggingFace Transformers, YOLO, OpenCV
+- **Tools:** Linux, Git, Docker, FastAPI
+
+---
+
+## Links
+[Portfolio](https://javideus.github.io) · [LinkedIn](https://linkedin.com/in/javideus) ·
+[arXiv](https://arxiv.org/abs/2602.14799)
